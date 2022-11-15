@@ -12,7 +12,7 @@ class Customer(models.Model):
     id = models.PositiveIntegerField(primary_key=True, null=False, db_index=True)
     name = models.CharField(max_length=20, null=False)
     type = models.CharField(max_length=10, choices=TYPE_CHOICES, default='R')
-    email_id = models.EmailField(null=False)
+    email_id = models.EmailField(null=False, unique= True)
     address = models.CharField(max_length=50, null=False)
     
     
@@ -21,7 +21,7 @@ class Customer(models.Model):
     
     
 class GoldCustomer(Customer):
-    date_joined = models.DateField(null=False)
+    date_joined = models.DateField(null=False, auto_now_add=True)
     coupon =  models.CharField(max_length=10)
 
 
