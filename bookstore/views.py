@@ -6,7 +6,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 import random
 from . import forms
-from .queries import addCustomer
+from .queries import addCustomer, createOrderLineItem, computeTotal
 # Create your views here.
 
 
@@ -23,7 +23,41 @@ def create_customer(request):
         
         addCustomer(id=id, type=type, email=email, address=address, name=name)
         
-        return Response({"message" : "tujya aichi gand"}, status=status.HTTP_201_CREATED)
+        return Response({"message" : "Customer created"}, status=status.HTTP_201_CREATED)
+        
+        
+    return None
+
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny,])
+def create_order_line_item(request):
+    if request.method == 'POST':
+        itemid=request.data['itemid']
+        customerid=request.data['customerid']
+        copies_ordered=request.data['copies']
+            
+        message = createOrderLineItem(itemid=itemid, customerid=customerid, copies_ordered=copies_ordered)
+        
+        return Response({"message" : message}, status=status.HTTP_201_CREATED)
+        
+        
+    return None
+
+
+
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny,])
+def compute_order_total(request):
+    if request.method == 'POST':
+        order_id=request.data['orderid']
+
+        total = computeTotal(orderid=order_id)
+        
+        return Response({"message" : total}, status=status.HTTP_201_CREATED)
         
         
     return None
