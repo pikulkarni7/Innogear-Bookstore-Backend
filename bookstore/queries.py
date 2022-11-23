@@ -16,7 +16,7 @@ def addCustomer(id, type, email, address, name):
 
 def createCustomerOrder(customerid):
     with connection.cursor() as cursor:
-        order_id = cursor.callfunc('CustOrder', int, [customerid])
+        order_id = cursor.casllfunc('CustOrder', int, [customerid])
         print(order_id)
         return order_id
 

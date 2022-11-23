@@ -39,7 +39,7 @@ def create_customer_order(request):
                 itemid=item['itemid']
                 copies_ordered=item['copies']
                 createOrderLineItem(itemid=itemid, orderid=order_id, copies_ordered=copies_ordered)
-            return Response({"message" : "Created order"}, status=status.HTTP_201_CREATED)
+            return Response({"message" : "Created order", "order_id": order_id}, status=status.HTTP_201_CREATED)
         except Exception as e:
             print(e)
             return Response({"message": "Failed to create order"}, status=status.HTTP_400_BAD_REQUEST) 
