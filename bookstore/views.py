@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 import random
 
-from .queries import addCustomer, createOrderLineItem, computeTotal, createCustomerOrder
+from .queries import addCustomer, createOrderLineItem, computeTotal, createCustomerOrder, makeGold
 
 
 
@@ -24,7 +24,7 @@ def create_customer(request):
             return Response({"message" : "Customer created"}, status=status.HTTP_201_CREATED)
         except Exception as e:
             print(e)
-            return Response({"message": "Faield to create order"}, status=status.HTTP_400_BAD_REQUEST) 
+            return Response({"message": "Failed to create order"}, status=status.HTTP_400_BAD_REQUEST) 
 
 
 
@@ -57,5 +57,20 @@ def compute_order_total(request):
             return Response({"message" : total}, status=status.HTTP_201_CREATED)
         except Exception as e:
             print(e)
-            return Response({"message": "Faield to compute total"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "Failed to compute total"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny,])
+def make_gold_customer(request):
+    if request.method == 'POST':
+        try:
+            customer_id=request.data['customer_id']
+            makeGold(customer_id=customer_id)
+            return Response({"message" : "Updated customer type, performed related changes"}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            print(e)
+            return Response({"message": "Failed to make gold"}, status=status.HTTP_400_BAD_REQUEST)
         

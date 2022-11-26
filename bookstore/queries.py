@@ -16,12 +16,12 @@ def addCustomer(id, type, email, address, name):
 
 def createCustomerOrder(customerid):
     with connection.cursor() as cursor:
-        order_id = cursor.casllfunc('CustOrder', int, [customerid])
+        order_id = cursor.callfunc('CustOrder', int, [customerid])
         print(order_id)
         return order_id
 
 
-def createOrderLineItem(itemid, orderid, copies_ordered):
+def createOrderLineItem(itemid , orderid, copies_ordered):
     with connection.cursor() as cursor:       
         cursor.callproc('createOrderLineItem', [itemid, orderid, copies_ordered])
     return None
@@ -31,6 +31,12 @@ def computeTotal(orderid):
     with connection.cursor() as cursor:       
         total = cursor.callfunc('computeTotal', float, [orderid])        
     return total
+
+
+def makeGold(customer_id):
+    with connection.cursor() as cursor:
+        cursor.callproc('makegoldcustomer', [customer_id])
+    return None
         
 
 
